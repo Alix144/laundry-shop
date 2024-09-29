@@ -13,3 +13,9 @@ h2{
 .content{
     @apply w-4/5 mx-auto;
 }
+
+.form-control{
+    height: 40px !important;
+    border-radius: 10px !important;
+    border: 1px solid #337856 !important;
+}
