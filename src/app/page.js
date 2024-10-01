@@ -1,5 +1,6 @@
 import Card from "@/components/Card";
 import Image from "next/image";
+import C2ABtn from "@/components/C2ABtn";
 
 export default function Home() {
   const description1 =
@@ -11,6 +12,7 @@ export default function Home() {
 
   return (
     <main className="w-screen relative">
+      {/* hero */}
       <section className="min-h-screen bg-[url('/images/bg.png')] bg-cover bg-center relative">
         <div className="h-[100%] content">
           <div className="pt-48 w-[50%] flex flex-col items-center gap-9">
@@ -22,9 +24,7 @@ export default function Home() {
               clothes, and check the status online anytime using your mobile
               number.
             </p>
-            <button className="py-2 px-5 text-white rounded-[10px] bg-darkGreen shadow-md duration-200">
-              Check Your Laundry Status
-            </button>
+            <C2ABtn/>
           </div>
         </div>
         <div className="w-96 cursor-pointer absolute bottom-0 right-52">
@@ -37,8 +37,8 @@ export default function Home() {
           />
         </div>
       </section>
-
-      <section>
+      {/* services */}
+      <section id="services">
         <div className="py-20 content">
           {/* section title */}
           <div className="mb-10 flex gap-5 items-center justify-center">
@@ -75,7 +75,11 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="h-screen bg-[url('/images/bg2.png')] bg-cover bg-center">
+      {/* about */}
+      <section
+        className="h-screen bg-[url('/images/bg2.png')] bg-cover bg-center"
+        id="about"
+      >
         <div className="py-20 content">
           {/* section title */}
           <div className="mb-10 flex gap-5 items-center justify-center">
@@ -105,7 +109,8 @@ export default function Home() {
         </div>
       </section>
 
-      <section className="h-screen">
+      {/* contact */}
+      <section className="h-screen" id="contact">
         <div className="pb-20 content">
           {/* section title */}
           <div className="mb-10 flex gap-5 items-center justify-center">
@@ -120,31 +125,39 @@ export default function Home() {
           </div>
 
           <div className="mx-auto w-[70%] p-5 rounded-[10px] bg-lightGreen flex gap-5 justify-center items-center">
-            <div className="flex flex-col gap-5 text-[#00000099]">
+            <div className="flex flex-col gap-5 text-[#00000099] text-center">
               <p>
-                <span className="text-black">Phone:</span> +123-456-7890
+                <span className="text-black">
+                  Phone: <br />
+                </span>{" "}
+                +123-456-7890
               </p>
               <p>
-                <span className="text-black">Email:</span>{" "}
+                <span className="text-black">
+                  Email: <br />
+                </span>{" "}
                 support@laundryshop.com
               </p>
               <p>
-                <span className="text-black">Address:</span> 123 Clean Street,
-                Laundry City, LC 54321
+                <span className="text-black">
+                  Address: <br />
+                </span>{" "}
+                123 Clean Street, Laundry City, LC 54321
               </p>
             </div>
             <iframe
               src="https://www.google.com/maps/embed?pb=!1m14!1m12!1m3!1d18582.216713192596!2d-156.48510010502784!3d20.88323226075751!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!5e1!3m2!1sen!2skw!4v1727614139843!5m2!1sen!2skw"
               width="400"
               height="250"
-              allowfullscreen=""
+              allowFullScreen=""
               loading="lazy"
-              referrerpolicy="no-referrer-when-downgrade"
+              referrerPolicy="no-referrer-when-downgrade"
             ></iframe>{" "}
           </div>
         </div>
       </section>
 
+      {/* footer */}
       <footer className="pb-5 flex justify-center items-center gap-2">
         <p>© 2024 Breaking Bad Laundry. All rights reserved. Developed by</p>
 
