@@ -32,7 +32,7 @@ export default function Order({ isAdmin, type }) {
 
   return (
     <div
-      className="mb-3 min-h-20 w-full py-5 px-7 bg-[#fafafa9f] rounded-[10px] shadow flex justify-between items-center"
+      className="mb-3 min-h-20 w-full py-5 px-7 bg-[#fafafa9f] rounded-[10px] shadow flex justify-between items-center cursor-pointer"
       onClick={() => setIsWindowOpen(true)}
     >
       {isAdmin ? (

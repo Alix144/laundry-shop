@@ -1,13 +1,4 @@
-"use client";
-import { useRouter } from "next/navigation";
-
 export default function PopupForm({ window }) {
-  const router = useRouter();
-
-  const handle = (e) => {
-    e.preventDefault();
-    router.push("/");
-  };
 
   return window === "addOrder" ? (
     <div
@@ -29,7 +20,9 @@ export default function PopupForm({ window }) {
           id=""
           className="mb-2 px-3 py-2 rounded-[10px] border border-[#00000040]"
         >
-          <option value="" disabled selected>Type</option>
+          <option value="" disabled selected>
+            Type
+          </option>
           <option value="">Clothing</option>
           <option value="">Accessories</option>
           <option value="">Household</option>
@@ -93,12 +86,10 @@ export default function PopupForm({ window }) {
         </select>
       </form>
 
-      <button
-        className="w-full px-3 py-2 bg-lightGreen rounded-[10px] hover:shadow hover:bg-[#11ff8c] duration-300"
-        onClick={(e) => handle(e)}
-      >
-        Edit
-      </button>
+      <div className="w-full flex justify-between">
+        <button className="w-[35%] px-3 py-2 bg-red rounded-[10px] hover:shadow hover:bg-[#ff3030] duration-300">Delete</button>
+        <button className="w-[35%] px-3 py-2 bg-lightGreen rounded-[10px] hover:shadow hover:bg-[#11ff8c] duration-300">Edit</button>
+      </div>
     </div>
   ) : (
     <div
