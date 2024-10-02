@@ -1,6 +1,7 @@
 import { Inter } from "next/font/google";
 import "./globals.css";
 import Header from "@/components/Header";
+import ReduxProvider from "@/redux/ReduxProvider";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -15,9 +16,13 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} bg-background overflow-x-hidden relative`}>
+      <body
+        className={`${inter.variable} bg-background overflow-x-hidden relative`}
+      >
+        <ReduxProvider>
           <Header />
           {children}
+        </ReduxProvider>
       </body>
     </html>
   );
