@@ -36,7 +36,7 @@ export default function PopupForm({ window }) {
       </form>
 
       <button
-        className="w-full px-3 py-2 bg-lightGreen rounded-[10px] hover:shadow hover:bg-[#11ff8c] duration-300"
+        className="w-full px-3 py-2 text-white bg-darkGreen rounded-[10px] hover:shadow hover:bg-[#337856a2] duration-300"
         onClick={(e) => handle(e)}
       >
         Add
@@ -87,8 +87,8 @@ export default function PopupForm({ window }) {
       </form>
 
       <div className="w-full flex justify-between">
-        <button className="w-[35%] px-3 py-2 bg-red rounded-[10px] hover:shadow hover:bg-[#ff3030] duration-300">Delete</button>
-        <button className="w-[35%] px-3 py-2 bg-lightGreen rounded-[10px] hover:shadow hover:bg-[#11ff8c] duration-300">Edit</button>
+        <button className="w-[35%] px-3 py-2 text-white bg-red rounded-[10px] hover:shadow hover:bg-[#ff3030] duration-300">Delete</button>
+        <button className="w-[35%] px-3 py-2 text-white bg-darkGreen hover:bg-[#337856a2] rounded-[10px] hover:shadow duration-300">Edit</button>
       </div>
     </div>
   ) : (

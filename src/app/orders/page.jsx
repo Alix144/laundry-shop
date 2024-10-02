@@ -12,7 +12,7 @@ import { useSelector } from "react-redux";
 export default function Orders() {
   const dispatch = useDispatch();
   const isAdmin = true;
-  
+
   const isAddOrderWindowOpen = useSelector(
     (state) => state.addOrderWindow.value
   );
@@ -38,7 +38,7 @@ export default function Orders() {
           <div className="w-[75%] flex flex-col gap-5">
             {isAdmin ? (
               <>
-                <button  className="py-2 w-[60%] mx-auto bg-darkGreen rounded-[10px] text-white"  onClick={() => setIsAddOrderWindowOpen(true)}>Add Order</button>
+                <button  className="py-2 w-[60%] mx-auto bg-darkGreen duration-300 hover:shadow hover:bg-[#337856a2] rounded-[10px] text-white"  onClick={() => setIsAddOrderWindowOpen(true)}>Add Order</button>
                 <OrdersBox isAdmin={isAdmin} title={"Active Orders"} type={"editable"}/>
                 <OrdersBox isAdmin={isAdmin} title={"Previous Orders"} type={"uneditable"}/>
               </>

@@ -5,10 +5,11 @@ import { onAuthStateChanged, signOut } from "firebase/auth";
 import { auth } from "../../firebase";
 import { useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
+import LoadingIcon from "./LoadingIcon";
 
 export default function Header() {
   const router = useRouter();
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState(undefined);
   const [isLoading, setIsLoading] = useState(false);
 
   useEffect(() => {
@@ -43,13 +44,16 @@ export default function Header() {
           <Link href={"#contact"}>Contact</Link>
           <Link href={"/login"}>Login</Link>
         </nav>
-      ) : (
+      ) : user ? (
         <nav className="flex gap-5 items-center text-lg text-pText">
           <Link href={"/"}>Home</Link>
           <Link href={"/orders"}>My Orders</Link>
           <button onClick={(e) => out(e)}>Logout</button>
         </nav>
-      )}
+      ) :
+        <LoadingIcon/>
+    
+    }
     </header>
   );
 }

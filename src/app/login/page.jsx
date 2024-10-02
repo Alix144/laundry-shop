@@ -35,6 +35,21 @@ export default function Login() {
   const [confirmationResult, setconfirmationResult] = useState(null);
   const [otp, setOtp] = useState("");
 
+  const addUser = async () => {
+    console.log("starteddd")
+    console.log(phoneNumber)
+    const response = await fetch("/api/users", {
+      method: "POST",
+      headers: { 
+        "Content-Type": "application/json" 
+      },
+      body: JSON.stringify({number: phoneNumber}),
+    });
+  
+    const data = await response.json();
+    console.log(data)
+  }
+
 
   const requestOtp = async (e) => {
     e.preventDefault();
@@ -70,6 +85,7 @@ export default function Login() {
   };
 
   const verifyOtp = async () => {
+    console.log("phoneNumber")
     setError("");
     startTransition(async () => {
       if (!confirmationResult) {
@@ -83,6 +99,7 @@ export default function Login() {
           console.log(res);
           router.replace("/orders");
           console.log(auth);
+          addUser()
         })
         .catch((error) => {
           console.log(error);

@@ -35,7 +35,7 @@ export default function OrdersBox({ isAdmin, title, type }) {
 
   return (
     <>
-      <div className="h-96 w-full py-5 px-7 bg-darkGreen rounded-[10px]">
+      <div className="h-96 w-full py-5 px-7 bg-[#337856a2] rounded-[10px]">
         {isAdmin && (
           <div className="mb-5 w-full flex justify-between items-center">
             <h3 className="text-white">{title}</h3>
