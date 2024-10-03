@@ -7,7 +7,7 @@ import { useEffect } from "react";
 export default function Order({ isAdmin, type, order }) {
   const dispatch = useDispatch();
 
-  const userNumber = String(order.number);
+  const userNumber = String(order.phoneNumber);
   const dbOrderDate = new Date(order.createdAt);
   const orderDate = `${String(dbOrderDate.getDate()).padStart(2, '0')}-${String(dbOrderDate.getMonth() + 1).padStart(2, '0')}-${dbOrderDate.getFullYear()}`;
 

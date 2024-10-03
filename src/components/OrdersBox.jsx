@@ -9,11 +9,13 @@ import {
 import { useDispatch, useSelector } from "react-redux";
 import PopupForm from "./PopupFrom";
 import { useEffect, useState } from "react";
+import LoadingIcon from "./LoadingIcon";
 
 export default function OrdersBox({ isAdmin, title, type, newOrders }) {
   const dispatch = useDispatch();
   const [orders, setOrders] = useState([]);
   const [ordersType, setOrdersType] = useState("");
+  const [loading, setLoading] = useState(true);
 
   const isEditOrderWindowOpen = useSelector(
     (state) => state.editOrderWindow.value
@@ -41,7 +43,7 @@ export default function OrdersBox({ isAdmin, title, type, newOrders }) {
   useEffect(() => {
     setOrders((prevOrders) => [...prevOrders, ...newOrders]);
 
-    if(type === "Active Orders"){
+    if (type === "Active Orders") {
       newOrders.forEach((newOrder) => {
         if (
           newOrder.status === "In Progress" ||
@@ -56,18 +58,21 @@ export default function OrdersBox({ isAdmin, title, type, newOrders }) {
           setOrders((prevOrders) => [...prevOrders, ...newOrder]);
         }
       });
-    }else{
+    } else {
       setOrders((prevOrders) => [...prevOrders, ...newOrders]);
     }
-
   }, [newOrders]);
+
+  useEffect(() => {
+    getOrders();
+  }, []);
 
   // API calls
   const getOrders = async () => {
     const response = await fetch("/api/orders", {
       method: "GET",
       headers: { "Content-Type": "application/json" },
-    });
+    })
     const data = await response.json();
     console.log(data);
 
@@ -82,7 +87,6 @@ export default function OrdersBox({ isAdmin, title, type, newOrders }) {
         }
       });
       setOrders(activeOrders);
-
     } else if (title === "Previous Orders") {
       let previousOrders = [];
       data.forEach((order) => {
@@ -91,10 +95,10 @@ export default function OrdersBox({ isAdmin, title, type, newOrders }) {
         }
       });
       setOrders(previousOrders);
-    }else{
-      setOrders(data)
+    } else {
+      setOrders(data);
     }
-
+    setLoading(false);
   };
 
   return (
@@ -119,8 +123,8 @@ export default function OrdersBox({ isAdmin, title, type, newOrders }) {
             </div>
           </div>
         )}
-        <div className="max-h-[90%] overflow-y-scroll">
-          {orders &&
+        <div className="max-h-[90%] min-h-[90%] overflow-y-scroll flex flex-col items-center justify-center">
+          {orders.length !== 0 ? (
             orders.map((order) => (
               <Order
                 isAdmin={isAdmin}
@@ -128,7 +132,15 @@ export default function OrdersBox({ isAdmin, title, type, newOrders }) {
                 order={order}
                 key={order._id}
               />
-            ))}
+            ))
+          ) : loading ? (
+            <LoadingIcon />
+          ) : orders.length === 0 ? (
+            <p>No Orders Found</p>
+          ):
+          null
+        
+        }
         </div>
       </div>
 
