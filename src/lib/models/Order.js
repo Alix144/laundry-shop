@@ -2,6 +2,11 @@ import mongoose, { Schema, model, models } from "mongoose";
 
 const OrderSchema = new Schema(
   {
+    user: {
+      type: Schema.Types.ObjectId,
+      ref: "User",
+      required: true,
+    },
     type: {
       type: String,
       required: true,
@@ -17,11 +22,7 @@ const OrderSchema = new Schema(
     },
     readyDate: {
       type: Date,
-    },
-    user: {
-      type: Schema.Types.ObjectId,
-      ref: "User",
-      required: true,
+      required: false,
     },
   },
   { timestamps: true }

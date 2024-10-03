@@ -1,3 +1,4 @@
+"use client";
 import Image from "next/image";
 import Order from "./Order";
 import { setToTrue, setToFalse } from "@/redux/features/editOrderWindow";
@@ -7,9 +8,11 @@ import {
 } from "@/redux/features/orderDetailsWindow";
 import { useDispatch, useSelector } from "react-redux";
 import PopupForm from "./PopupFrom";
+import { useEffect, useState } from "react";
 
 export default function OrdersBox({ isAdmin, title, type }) {
   const dispatch = useDispatch();
+  const [orders, setOrders] = useState([]);
   const isEditOrderWindowOpen = useSelector(
     (state) => state.editOrderWindow.value
   );
@@ -31,6 +34,45 @@ export default function OrdersBox({ isAdmin, title, type }) {
     } else {
       dispatch(setDetailsWindowToFalse());
     }
+  };
+
+  useEffect(() => {
+    getOrders();
+  }, []);
+
+  // API calls
+  const getOrders = async () => {
+    const response = await fetch("/api/orders", {
+      method: "GET",
+      headers: { "Content-Type": "application/json" },
+    });
+    const data = await response.json();
+    console.log(data);
+
+    if (title === "Active Orders") {
+      let activeOrders = [];
+      data.forEach((order) => {
+        if (
+          order.status === "In Progress" ||
+          order.status === "Ready For Pickup"
+        ) {
+          activeOrders.push(order);
+        }
+      });
+      setOrders(activeOrders);
+
+    } else if (title === "Previous Orders") {
+      let previousOrders = [];
+      data.forEach((order) => {
+        if (order.status === "Completed" || order.status === "Canceled") {
+          previousOrders.push(order);
+        }
+      });
+      setOrders(previousOrders);
+    }else{
+      setOrders(data)
+    }
+
   };
 
   return (
@@ -56,48 +98,62 @@ export default function OrdersBox({ isAdmin, title, type }) {
           </div>
         )}
         <div className="max-h-[90%] overflow-y-scroll">
-          <Order isAdmin={isAdmin} type={type} />
-          <Order isAdmin={isAdmin} type={type} />
+          {orders &&
+            orders.map((order) => (
+              <Order
+                isAdmin={isAdmin}
+                type={type}
+                order={order}
+                key={order._id}
+              />
+            ))}
         </div>
       </div>
 
-      {isEditOrderWindowOpen &&
-      <div
-        className="h-screen w-full fixed top-0 left-0 bg-[#0000004d] flex justify-center items-center z-20"
-        onClick={() => setIsEditOrderWindowOpen(false)}
-      >
-        <div className="w-[30%] relative" onClick={(e) => e.stopPropagation()}>
-          <Image
-            src="/images/close.png"
-            alt="Close Form Icon"
-            width={20}
-            height={20}
-            className="absolute left-1/2 transform -translate-x-1/2 -top-10 cursor-pointer"
-            onClick={() => setIsEditOrderWindowOpen(false)}
-          />
-          <PopupForm window="editOrder" />
+      {/* popup windows */}
+      {isEditOrderWindowOpen && (
+        <div
+          className="h-screen w-full fixed top-0 left-0 bg-[#0000004d] flex justify-center items-center z-20"
+          onClick={() => setIsEditOrderWindowOpen(false)}
+        >
+          <div
+            className="w-[30%] relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src="/images/close.png"
+              alt="Close Form Icon"
+              width={20}
+              height={20}
+              className="absolute left-1/2 transform -translate-x-1/2 -top-10 cursor-pointer"
+              onClick={() => setIsEditOrderWindowOpen(false)}
+            />
+            <PopupForm window="editOrder" />
+          </div>
         </div>
-      </div>
-      }
-      
-      {isOrderDetailsWindowOpen && 
-      <div
-        className="h-screen w-full fixed top-0 left-0 bg-[#0000004d] flex justify-center items-center z-20"
-        onClick={() => setIsDetailsWindowOpen(false)}
-      >
-        <div className="w-[30%] relative" onClick={(e) => e.stopPropagation()}>
-          <Image
-            src="/images/close.png"
-            alt="Close Form Icon"
-            width={20}
-            height={20}
-            className="absolute left-1/2 transform -translate-x-1/2 -top-10 cursor-pointer"
-            onClick={() => setIsDetailsWindowOpen(false)}
-          />
-          <PopupForm window="orderDetails" />
+      )}
+
+      {isOrderDetailsWindowOpen && (
+        <div
+          className="h-screen w-full fixed top-0 left-0 bg-[#0000004d] flex justify-center items-center z-20"
+          onClick={() => setIsDetailsWindowOpen(false)}
+        >
+          <div
+            className="w-[30%] relative"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <Image
+              src="/images/close.png"
+              alt="Close Form Icon"
+              width={20}
+              height={20}
+              className="absolute left-1/2 transform -translate-x-1/2 -top-10 cursor-pointer"
+              onClick={() => setIsDetailsWindowOpen(false)}
+            />
+            <PopupForm window="orderDetails" />
+          </div>
         </div>
-      </div>
-      }
+      )}
     </>
   );
 }

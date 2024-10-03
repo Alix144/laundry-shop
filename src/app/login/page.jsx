@@ -20,7 +20,6 @@ import {
 import { auth } from "../../../firebase";
 import { useRouter } from "next/navigation";
 
-
 export default function Login() {
   const router = useRouter();
   const [user, setUser] = useState(null);
@@ -34,22 +33,6 @@ export default function Login() {
   const [recaptchaVerifier, setRecaptchaVerifier] = useState(null);
   const [confirmationResult, setconfirmationResult] = useState(null);
   const [otp, setOtp] = useState("");
-
-  const addUser = async () => {
-    console.log("starteddd")
-    console.log(phoneNumber)
-    const response = await fetch("/api/users", {
-      method: "POST",
-      headers: { 
-        "Content-Type": "application/json" 
-      },
-      body: JSON.stringify({number: phoneNumber}),
-    });
-  
-    const data = await response.json();
-    console.log(data)
-  }
-
 
   const requestOtp = async (e) => {
     e.preventDefault();
@@ -71,7 +54,7 @@ export default function Login() {
         setSuccess("OTP sent successfully.");
       } catch (error) {
         console.log(error);
-        setSuccess("")
+        setSuccess("");
         setResendCountdown(0);
         if (error.code === "auth/invalid-phone-number") {
           setError("Invalid phone number. please check the number entered");
@@ -85,7 +68,7 @@ export default function Login() {
   };
 
   const verifyOtp = async () => {
-    console.log("phoneNumber")
+    console.log("phoneNumber");
     setError("");
     startTransition(async () => {
       if (!confirmationResult) {
@@ -99,11 +82,10 @@ export default function Login() {
           console.log(res);
           router.replace("/orders");
           console.log(auth);
-          addUser()
         })
         .catch((error) => {
           console.log(error);
-          setSuccess("")
+          setSuccess("");
           setError("Failed to verify OTP. please check the OTP");
         });
     });
@@ -118,7 +100,6 @@ export default function Login() {
   }, [resendCountdown]);
 
   useEffect(() => {
-    console.log(phoneNumber);
     if (phoneNumber.length < 11) {
       setValidLength(false);
     } else {
@@ -160,9 +141,25 @@ export default function Login() {
   useEffect(() => {
     const hasEnteredAllDigits = otp.length === 6;
     if (hasEnteredAllDigits) {
-      verifyOtp();
+      verifyOtp().then(addUser());
     }
   }, [otp]);
+
+  // API calls
+  const addUser = async () => {
+    console.log("starteddd");
+    console.log(phoneNumber);
+    const response = await fetch("/api/users", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({ number: phoneNumber }),
+    });
+
+    const data = await response.json();
+    console.log(data);
+  };
 
   return (
     <main className="min-h-screen bg-[url('/images/bg.png')] bg-cover bg-center flex justify-center items-center">
