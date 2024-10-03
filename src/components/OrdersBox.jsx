@@ -10,9 +10,11 @@ import { useDispatch, useSelector } from "react-redux";
 import PopupForm from "./PopupFrom";
 import { useEffect, useState } from "react";
 
-export default function OrdersBox({ isAdmin, title, type }) {
+export default function OrdersBox({ isAdmin, title, type, newOrders }) {
   const dispatch = useDispatch();
   const [orders, setOrders] = useState([]);
+  const [ordersType, setOrdersType] = useState("");
+
   const isEditOrderWindowOpen = useSelector(
     (state) => state.editOrderWindow.value
   );
@@ -37,8 +39,28 @@ export default function OrdersBox({ isAdmin, title, type }) {
   };
 
   useEffect(() => {
-    getOrders();
-  }, []);
+    setOrders((prevOrders) => [...prevOrders, ...newOrders]);
+
+    if(type === "Active Orders"){
+      newOrders.forEach((newOrder) => {
+        if (
+          newOrder.status === "In Progress" ||
+          newOrder.status === "Ready For Pickup"
+        ) {
+          setOrders((prevOrders) => [...prevOrders, ...newOrder]);
+        }
+      });
+    } else if (title === "Previous Orders") {
+      newOrders.forEach((newOrder) => {
+        if (newOrder.status === "Completed" || newOrder.status === "Canceled") {
+          setOrders((prevOrders) => [...prevOrders, ...newOrder]);
+        }
+      });
+    }else{
+      setOrders((prevOrders) => [...prevOrders, ...newOrders]);
+    }
+
+  }, [newOrders]);
 
   // API calls
   const getOrders = async () => {

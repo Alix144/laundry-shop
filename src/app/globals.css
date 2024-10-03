@@ -21,6 +21,10 @@ h2{
     color: #337856a2;
 }
 
+.kkk{
+  width: 100px !important;
+}
+
 @layer base {
   :root {
         --background: 0 0% 100%;
