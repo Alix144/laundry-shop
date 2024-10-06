@@ -41,7 +41,6 @@ export default function OrdersBox({ isAdmin, title, type, newOrders }) {
   };
 
   useEffect(() => {
-    setOrders((prevOrders) => [...prevOrders, ...newOrders]);
 
     if (type === "Active Orders") {
       newOrders.forEach((newOrder) => {
@@ -145,7 +144,7 @@ export default function OrdersBox({ isAdmin, title, type, newOrders }) {
       </div>
 
       {/* popup windows */}
-      {isEditOrderWindowOpen && (
+      {/* {isEditOrderWindowOpen && (
         <div
           className="h-screen w-full fixed top-0 left-0 bg-[#0000004d] flex justify-center items-center z-20"
           onClick={() => setIsEditOrderWindowOpen(false)}
@@ -165,9 +164,9 @@ export default function OrdersBox({ isAdmin, title, type, newOrders }) {
             <PopupForm window="editOrder" />
           </div>
         </div>
-      )}
+      )} */}
 
-      {isOrderDetailsWindowOpen && (
+      {/* {isOrderDetailsWindowOpen && (
         <div
           className="h-screen w-full fixed top-0 left-0 bg-[#0000004d] flex justify-center items-center z-20"
           onClick={() => setIsDetailsWindowOpen(false)}
@@ -187,7 +186,7 @@ export default function OrdersBox({ isAdmin, title, type, newOrders }) {
             <PopupForm window="orderDetails" />
           </div>
         </div>
-      )}
+      )} */}
     </>
   );
 }

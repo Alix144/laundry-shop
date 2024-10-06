@@ -16,14 +16,19 @@ export default function Orders() {
   const [type, setType] = useState("");
   const [readyDate, setReadyDate] = useState("");
   const [loading, setLoading] = useState(false);
-  const [newOrders, setNewOrders] = useState([])
+  const [newOrders, setNewOrders] = useState([]);
+  const [error, setError] = useState(false);
 
   const today = new Date();
 
-  const handleAddOrder = async(e) => {
-    e.preventDefault()
-    const number = "965" + phoneNumber
-    setLoading(true)
+  const handleAddOrder = async (e) => {
+    e.preventDefault();
+    if (type === "" || phoneNumber === "") {
+      setError(true);
+      return;
+    }
+    const number = "965" + phoneNumber;
+    setLoading(true);
     try {
       const response = await fetch("/api/orders", {
         method: "POST",
@@ -32,16 +37,20 @@ export default function Orders() {
         },
         body: JSON.stringify({ phoneNumber: number, type, readyDate }),
       });
-      const newOrder = {phoneNumber: number, type, createdAt: today, readyDate}
+      const newOrder = {
+        phoneNumber: number,
+        type,
+        createdAt: today,
+        readyDate,
+      };
       setNewOrders((prevOrders) => [...prevOrders, newOrder]);
-      dispatch(setToFalse())
-      setLoading(false)
+      dispatch(setToFalse());
+      setLoading(false);
     } catch (error) {
-      console.log(error)
+      console.log(error);
     }
+  };
 
-  }
-  
   const isAdmin = true;
 
   const isAddOrderWindowOpen = useSelector(
@@ -53,6 +62,7 @@ export default function Orders() {
       dispatch(setToTrue());
     } else {
       dispatch(setToFalse());
+      setError(false)
     }
   };
 
@@ -91,7 +101,11 @@ export default function Orders() {
                 />
               </>
             ) : (
-              <OrdersBox isAdmin={isAdmin} type={"uneditable"} newOrders={newOrders} />
+              <OrdersBox
+                isAdmin={isAdmin}
+                type={"uneditable"}
+                newOrders={newOrders}
+              />
             )}
           </div>
         </div>
@@ -167,13 +181,19 @@ export default function Orders() {
                 />
               </form>
 
+              {error ? (
+                <div className="mb-5 py-2 px-5 rounded-[10px] bg-[#ff080060] border-[1px] border-red">
+                  <p className="text-white font-semibold text-sm">
+                    Fill All the Field!
+                  </p>
+                </div>
+              ) : null}
               <button
                 className="w-full px-3 py-2 text-white bg-darkGreen rounded-[10px] hover:shadow hover:bg-[#337856a2] duration-300"
                 onClick={(e) => handleAddOrder(e)}
               >
                 {loading ? <LoadingIcon /> : "Add"}
               </button>
-
             </div>
             {/* *********** */}
           </div>
